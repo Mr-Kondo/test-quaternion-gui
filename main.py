@@ -16,6 +16,8 @@ def index():
 @app.route("/api/quaternion-to-euler", methods=["POST"])
 def api_quaternion_to_euler():
     data = request.get_json()
+    if data is None:
+        return jsonify({"error": "Missing JSON data"}), 400
     try:
         result = quaternion_to_euler(
             data["w"], data["x"], data["y"], data["z"]
@@ -28,6 +30,8 @@ def api_quaternion_to_euler():
 @app.route("/api/euler-to-quaternion", methods=["POST"])
 def api_euler_to_quaternion():
     data = request.get_json()
+    if data is None:
+        return jsonify({"error": "Missing JSON data"}), 400
     try:
         result = euler_to_quaternion(
             data["roll"], data["pitch"], data["yaw"]
@@ -40,6 +44,8 @@ def api_euler_to_quaternion():
 @app.route("/api/normalize-quaternion", methods=["POST"])
 def api_normalize_quaternion():
     data = request.get_json()
+    if data is None:
+        return jsonify({"error": "Missing JSON data"}), 400
     try:
         result = normalize_quaternion(
             data["w"], data["x"], data["y"], data["z"]

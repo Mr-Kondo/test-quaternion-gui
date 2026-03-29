@@ -7,7 +7,7 @@ def normalize_quaternion(w: float, x: float, y: float, z: float) -> dict:
     """クォータニオンを正規化する"""
     q = np.array([x, y, z, w])
     norm = np.linalg.norm(q)
-    if norm < 1e-10:
+    if norm < 1e-8:
         return {"w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0}
     q_normalized = q / norm
     return {

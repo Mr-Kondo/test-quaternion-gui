@@ -137,8 +137,12 @@ const Controls = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(q)
             });
-            const euler = await response.json();
-            this.setEuler(euler);
+            const data = await response.json();
+            if (!response.ok) {
+                console.error('API error:', data.error);
+                return;
+            }
+            this.setEuler(data);
             
             // 3D更新
             setArrowRotation(q);
@@ -162,11 +166,15 @@ const Controls = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(euler)
             });
-            const q = await response.json();
-            this.setQuaternion(q);
+            const data = await response.json();
+            if (!response.ok) {
+                console.error('API error:', data.error);
+                return;
+            }
+            this.setQuaternion(data);
             
             // 3D更新
-            setArrowRotation(q);
+            setArrowRotation(data);
         } catch (err) {
             console.error('変換エラー:', err);
         }
@@ -183,8 +191,12 @@ const Controls = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(q)
             });
-            const normalized = await response.json();
-            this.setQuaternion(normalized);
+            const data = await response.json();
+            if (!response.ok) {
+                console.error('API error:', data.error);
+                return;
+            }
+            this.setQuaternion(data);
             this.onQuaternionChange();
         } catch (err) {
             console.error('正規化エラー:', err);

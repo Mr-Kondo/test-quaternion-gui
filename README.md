@@ -22,8 +22,85 @@ uv run python main.py
 
 ブラウザで http://127.0.0.1:5000 を開く
 
+## ファイル構成
+
+```
+test-quaternion-gui/
+├── main.py              # Flask アプリのエントリーポイント
+├── quaternion_utils.py  # クォータニオン/オイラー角変換ロジック
+├── templates/
+│   └── index.html       # メインページ
+├── static/
+│   ├── css/             # スタイルシート
+│   └── js/              # Three.js 等のスクリプト
+├── pyproject.toml       # プロジェクト設定・依存関係
+└── uv.lock              # 依存関係ロックファイル
+```
+
+## API エンドポイント
+
+### POST `/api/quaternion-to-euler`
+
+クォータニオンをオイラー角に変換します。
+
+**リクエスト:**
+```json
+{ "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 }
+```
+
+**レスポンス:**
+```json
+{ "roll": 0.0, "pitch": 0.0, "yaw": 0.0 }
+```
+
+### POST `/api/euler-to-quaternion`
+
+オイラー角をクォータニオンに変換します。
+
+**リクエスト:**
+```json
+{ "roll": 0.0, "pitch": 0.0, "yaw": 0.0 }
+```
+
+**レスポンス:**
+```json
+{ "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 }
+```
+
+### POST `/api/normalize-quaternion`
+
+クォータニオンを正規化（単位クォータニオン化）します。
+
+**リクエスト:**
+```json
+{ "w": 2.0, "x": 0.0, "y": 0.0, "z": 0.0 }
+```
+
+**レスポンス:**
+```json
+{ "w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0 }
+```
+
 ## 技術スタック
 
 - **バックエンド**: Python + Flask
 - **フロントエンド**: Three.js (3D表示)
 - **数学**: scipy.spatial.transform.Rotation
+
+## 開発者向け情報
+
+### 動作要件
+
+- Python 3.13 以上
+- [uv](https://docs.astral.sh/uv/) パッケージマネージャー（推奨）
+
+### 依存関係
+
+- Flask >= 3.0.0
+- NumPy >= 1.26.0
+- SciPy >= 1.12.0
+
+### デバッグモード
+
+デフォルトでデバッグモードが有効です（`main.py` の `debug=True`）。
+本番環境では `debug=False` に変更するか、WSGI サーバー（Gunicorn 等）を使用してください。

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クォータニオン実感プログラム</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="panel left-panel">
+            <h2>3Dビュー</h2>
+            <div id="canvas-container"></div>
+        </div>
+        <div class="panel right-panel">
+            <h2>パラメータ制御</h2>
+            
+            <div class="param-section">
+                <h3>クォータニオン (w, x, y, z)</h3>
+                <div class="param-group">
+                    <label>w:</label>
+                    <input type="range" id="q-w" min="-1" max="1" step="0.01" value="1">
+                    <input type="number" id="q-w-num" min="-1" max="1" step="0.01" value="1">
+                </div>
+                <div class="param-group">
+                    <label>x:</label>
+                    <input type="range" id="q-x" min="-1" max="1" step="0.01" value="0">
+                    <input type="number" id="q-x-num" min="-1" max="1" step="0.01" value="0">
+                </div>
+                <div class="param-group">
+                    <label>y:</label>
+                    <input type="range" id="q-y" min="-1" max="1" step="0.01" value="0">
+                    <input type="number" id="q-y-num" min="-1" max="1" step="0.01" value="0">
+                </div>
+                <div class="param-group">
+                    <label>z:</label>
+                    <input type="range" id="q-z" min="-1" max="1" step="0.01" value="0">
+                    <input type="number" id="q-z-num" min="-1" max="1" step="0.01" value="0">
+                </div>
+                <button id="normalize-btn" class="action-btn">正規化</button>
+                <div class="info-text">
+                    <span>ノルム: <span id="q-norm">1.000</span></span>
+                </div>
+            </div>
+
+            <div class="param-section">
+                <h3>オイラー角 (Roll, Pitch, Yaw)</h3>
+                <div class="param-group">
+                    <label>Roll (X):</label>
+                    <input type="range" id="e-roll" min="-180" max="180" step="1" value="0">
+                    <input type="number" id="e-roll-num" min="-180" max="180" step="1" value="0">
+                    <span class="unit">°</span>
+                </div>
+                <div class="param-group">
+                    <label>Pitch (Y):</label>
+                    <input type="range" id="e-pitch" min="-90" max="90" step="1" value="0">
+                    <input type="number" id="e-pitch-num" min="-90" max="90" step="1" value="0">
+                    <span class="unit">°</span>
+                </div>
+                <div class="param-group">
+                    <label>Yaw (Z):</label>
+                    <input type="range" id="e-yaw" min="-180" max="180" step="1" value="0">
+                    <input type="number" id="e-yaw-num" min="-180" max="180" step="1" value="0">
+                    <span class="unit">°</span>
+                </div>
+            </div>
+
+            <div class="param-section">
+                <h3>ジンバルロック警告</h3>
+                <div id="gimbal-warning" class="warning hidden">
+                    ⚠️ ジンバルロック付近です（Pitch ≈ ±90°）
+                </div>
+                <div id="gimbal-ok" class="ok">
+                    ✓ 正常
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/scene.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/controls.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
